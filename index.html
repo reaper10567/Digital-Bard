@@ -15,9 +15,9 @@
 				var displayArea = document.getElementById('Prose_content');
 				
 				function makeSubTypesVisible(e){
-				document.getElementById("Type_SubBar").style.visibility = "visible";
+					document.getElementById("Type_SubBar").style.visibility = "visible";
 				
-				type = e.target.innerHTML;
+					type = e.target.innerHTML;
 				}
 				var currentFileNames = [];
 				
@@ -37,7 +37,7 @@
 				var subtypeButton = document.getElementsByClassName('subtype_selector');
 				for(i=0; i < subtypeButton.length; i++){
 					subtypeButton[i].onclick = function(e){
-						this.subtype = e.target.innerHTML;
+						subtype = e.target.innerHTML;
 						console.log(type);
 						console.log(subtype);
 						fileReq.open("GET",baseURL + type + "/" + subtype + "/" + currentFileNames[0],true);
