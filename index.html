@@ -13,6 +13,12 @@
 				var subtype;
 				var displayArea = document.getElementById('Prose_content');
 				
+				function makeSubTypesVisible(e){
+				document.getElementById("Type_SubBar").style.visibility = "visible";
+				
+				type = e.target.innerHTML;
+				console.log(type);
+			}
 				var currentFileNames = [];
 				
 				for(i=0;i<x.length; i++){
@@ -68,12 +74,7 @@
 				
 			}
 			
-			function makeSubTypesVisible(e){
-				document.getElementById("Type_SubBar").style.visibility = "visible";
-				
-				type = e.target.innerHTML;
-				console.log(type);
-			}
+			
 			
 			function parseResult(result)
 			{
