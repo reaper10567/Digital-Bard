@@ -41,7 +41,7 @@
 					subtypeButton[i].onclick = function(e){
 						subtype = e.target.innerHTML;
 						$.ajax({
-							url: baseURL + 'getFolderAsArrayOfNames.php?direct='+type+'/'+subtype+"&callback=success",
+							url: baseURL + 'getFolderAsArrayOfNames.php?direct='+type+'/'+subtype,
 							dataType: 'json',
 							success: function(data){
 								currentFileNames = [];
