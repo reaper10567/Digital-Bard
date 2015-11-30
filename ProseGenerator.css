@@ -1,0 +1,33 @@
+body{
+background-color:#FCD0A9;
+}
+
+.subtype_selector{
+	background:none;
+    border:none;
+    margin:0;
+    padding-right:2%;
+	color:white;
+}
+
+.Type_Selector{
+    background:none;
+    border:none;
+    margin:0;
+    padding-right:2%;
+	color:white;
+}
+
+#Type_SubBar{
+visibility: hidden;
+}
+
+#Type_Bar{
+background-color: black;
+color: white;
+height: 10%;
+}
+
+#Prose_content{
+	text-align: center;
+}

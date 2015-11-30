@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Prose Generator</title>
+		<link rel="stylesheet" type="text/css" href="ProseGenerator.css">
+		<script>
+		var associativeArray = {};
+			window.onload = function(){
+				var x = document.getElementsByClassName("Type_Selector");
+				var i;
+				var baseURL = "http://people.rit.edu/tcg3234/RPGSeminarProject/";
+				var type;
+				var subtype;
+				var displayArea = document.getElementById('Prose_content');
+				
+				for(i=0;i<x.length; i++){
+					x[i].onclick = makeSubTypesVisible;
+				}
+				
+				document.getElementById('prev').onclick = function(){
+					console.log("previous triggered");
+				}
+				
+				document.getElementById('next').onclick = function(){
+					console.log("next triggered");
+				}
+				
+				var fileReq = new XMLHttpRequest();
+				var subtypeButton = document.getElementsByClassName('subtype_selector');
+				for(i=0; i < subtypeButton.length; i++){
+					subtypeButton[i].onclick = function(e){
+						subtype = e.target.innerHTML;
+						console.log(subtype);
+						fileReq.open("GET",baseURL + "PoemParseAttempt.txt",true);
+						fileReq.send(null);
+					}
+				}
+				
+				fileReq.onreadystatechange = function(){
+					if(fileReq.readyState === 4)
+					{
+						if(fileReq.status === 200 || fileReq.status == 0)
+						{
+							var allText = fileReq.responseText;
+							displayArea.innerHTML = parseResult(allText);
+						
+						for(var key in associativeArray){
+							var current = document.getElementById(key);
+							
+							current.onchange = function(e){
+							var id = e.target.id;
+								var doubleKey = id+id;
+								var halfKey = id.substring(0,Math.ceil(id.length/2));
+								if(associativeArray[doubleKey]){
+									document.getElementById(doubleKey).selectedIndex = e.target.selectedIndex;
+								}
+								else if(associativeArray[halfKey]){
+									document.getElementById(halfKey).selectedIndex = e.target.selectedIndex;
+								}
+							}
+						}
+						}
+					}
+				}
+				
+			}
+			
+			function makeSubTypesVisible(e){
+				document.getElementById("Type_SubBar").style.visibility = "visible";
+				
+				type = e.target.innerHTML;
+				console.log(type);
+			}
+			
+			function parseResult(result)
+			{
+				var innerHTML = "";
+				
+				var choice = "";
+				var choices = [];
+				var num = "";
+				var character;
+				var checkChoices = false;
+				for(i=0;i<result.length;i++)
+				{
+					character = result[i];
+					if(checkChoices){
+						if(character == '|'){
+							choices.push(choice);
+							choice = "";
+							continue;
+						}
+						else if(isNumber(character))
+						{
+							while(isNumber(result[i+1])){
+								i++;
+							}
+							choices.push(choice);
+							associativeArray[num] = choices;
+							
+							innerHTML+="<select id='"+num+"'>";
+							
+							for(x=0;x<associativeArray[num].length;x++){
+								innerHTML += "<option value='"+associativeArray[num][x]+"'>"+associativeArray[num][x]+"</option>";
+							}
+							
+							innerHTML+="</select>";
+							num="";
+							choice = "";
+							choices = [];
+							checkChoices = false;
+							continue;
+						}
+						else
+							choice += character;
+					}
+					
+					else if(isNumber(character)){
+						num+= character;
+						while(isNumber(result[i+1])){
+							i++;
+							character = result[i];
+							num+=character;
+						}
+						checkChoices = true;
+					}
+					
+					else {
+						if(character == '\\' && result[i+1] == 'n')
+						{
+							innerHTML+="<br>";
+							i++;
+						}
+						else
+							innerHTML+=character;
+					}
+				}
+				
+				return(innerHTML);
+			}
+			
+			function isNumber(n) {
+
+				return !isNaN(parseFloat(n)) && isFinite(n);
+
+			}
+		</script>
+	</head>
+	
+	<body>
+		<div id="Type_Bar">
+			<button class="Type_Selector">Riddle</button>
+			<button class="Type_Selector">Prophecy</button>
+			<button class="Type_Selector">Instructions</button>
+			<button class="Type_Selector">Bardic</button>
+			<div id="Type_SubBar">
+				<button class="subtype_selector" id="subtype_selector">Warning</button>
+				<button class="subtype_selector" id="subtype_selector">Humor</button>
+				<button class="subtype_selector" id="subtype_selector">Epic</button>
+				<button class="subtype_selector" id="subtype_selector">Horror</button>
+				<button class="subtype_selector" id="subtype_selector">Shanties</button>
+			</div>
+		</div>
+		<div id="Prose_content"></div>
+		<div id="Left_Arrow" style="float:left;"><button id="prev"><</a></div>
+		<div id="Right_Arrow" style="float:right;"><button id="next">></a></div>
+	</body>
+</html>
