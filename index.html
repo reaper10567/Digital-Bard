@@ -13,6 +13,8 @@
 				var subtype;
 				var displayArea = document.getElementById('Prose_content');
 				
+				var currentFileNames = [];
+				
 				for(i=0;i<x.length; i++){
 					x[i].onclick = makeSubTypesVisible;
 				}
@@ -31,7 +33,7 @@
 					subtypeButton[i].onclick = function(e){
 						subtype = e.target.innerHTML;
 						console.log(subtype);
-						fileReq.open("GET",baseURL + "PoemParseAttempt.txt",true);
+						fileReq.open("GET",baseURL + type + "/" + subtype + "/" + currentFileNames[0],true);
 						fileReq.send(null);
 					}
 				}
