@@ -7,10 +7,11 @@
 		var associativeArray = {};
 		var type;
 		var subtype;
+		var currentFileNames = [];
 			window.onload = function(){
 				var x = document.getElementsByClassName("Type_Selector");
 				var i;
-				var baseURL = "reaper10567.github.io/Prose-Generator/";
+				var baseURL = "http://people.rit.edu/tcg3234/RPGSeminarProject/";
 				
 				var displayArea = document.getElementById('Prose_content');
 				
@@ -19,7 +20,7 @@
 				
 					type = e.target.innerHTML;
 				}
-				var currentFileNames = [];
+				
 				
 				for(i=0;i<x.length; i++){
 					x[i].onclick = makeSubTypesVisible;
@@ -38,10 +39,20 @@
 				for(i=0; i < subtypeButton.length; i++){
 					subtypeButton[i].onclick = function(e){
 						subtype = e.target.innerHTML;
-						console.log(type);
-						console.log(subtype);
-						fileReq.open("GET",baseURL + type + "/" + subtype + "/" + currentFileNames[0],true);
-						fileReq.send(null);
+						$.ajax({
+							url: baseURL + 'getFolderAsArrayOfNames.php?direct='+type+'/'+subtype+"&callback=success",
+							dataType: 'json',
+							success: function(data){
+								currentFileNames = [];
+								for(var i=0; i < data.length; i++)
+								{
+									currentFileNames.push(data[i]);
+								}
+								fileReq.open("GET",baseURL + type + "/" + subtype + "/" + currentFileNames[0],true);
+								fileReq.send(null);
+							});
+						});
+						
 					}
 				}
 				
