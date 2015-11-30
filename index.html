@@ -32,6 +32,7 @@
 				for(i=0; i < subtypeButton.length; i++){
 					subtypeButton[i].onclick = function(e){
 						subtype = e.target.innerHTML;
+						console.log(type);
 						console.log(subtype);
 						fileReq.open("GET",baseURL + type + "/" + subtype + "/" + currentFileNames[0],true);
 						fileReq.send(null);
