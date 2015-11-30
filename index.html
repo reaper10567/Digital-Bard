@@ -5,20 +5,20 @@
 		<link rel="stylesheet" type="text/css" href="ProseGenerator.css">
 		<script>
 		var associativeArray = {};
+		var type;
+		var subtype;
 			window.onload = function(){
 				var x = document.getElementsByClassName("Type_Selector");
 				var i;
 				var baseURL = "reaper10567.github.io/Prose-Generator/";
-				var type;
-				var subtype;
+				
 				var displayArea = document.getElementById('Prose_content');
 				
 				function makeSubTypesVisible(e){
 				document.getElementById("Type_SubBar").style.visibility = "visible";
 				
 				type = e.target.innerHTML;
-				console.log(type);
-			}
+				}
 				var currentFileNames = [];
 				
 				for(i=0;i<x.length; i++){
@@ -37,7 +37,7 @@
 				var subtypeButton = document.getElementsByClassName('subtype_selector');
 				for(i=0; i < subtypeButton.length; i++){
 					subtypeButton[i].onclick = function(e){
-						subtype = e.target.innerHTML;
+						this.subtype = e.target.innerHTML;
 						console.log(type);
 						console.log(subtype);
 						fileReq.open("GET",baseURL + type + "/" + subtype + "/" + currentFileNames[0],true);
