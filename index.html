@@ -44,6 +44,7 @@
 							url: baseURL + 'getFolderAsArrayOfNames.php?direct='+type+'/'+subtype,
 							dataType: 'json',
 							success: function(data){
+							console.log("Thing. Made it to the callback");
 								currentFileNames = [];
 								for(var i=0; i < data.length; i++)
 								{
