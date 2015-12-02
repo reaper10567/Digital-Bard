@@ -107,7 +107,7 @@
 						var id = e.target.id;
 						var doubleKey = id+id;
 						var halfKey = id.substring(0,Math.ceil(id.length/2));
-						while((associativeArray[doubleKey])
+						while(associativeArray[doubleKey])
 						{
 							document.getElementById(doubleKey).selectedIndex = e.target.selectedIndex;
 							doubleKey = doubleKey+doubleKey;
