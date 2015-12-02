@@ -104,18 +104,24 @@
 					var current = document.getElementById(key);
 							
 					current.onchange = function(e){
-						var id = e.target.id;
-						var doubleKey = id+id;
-						var halfKey = id.substring(0,Math.ceil(id.length/2));
-						while(associativeArray[doubleKey])
-						{
-							document.getElementById(doubleKey).selectedIndex = e.target.selectedIndex;
-							doubleKey = doubleKey+doubleKey;
-						}
-						while(associativeArray[halfKey]){
-							document.getElementById(halfKey).selectedIndex = e.target.selectedIndex;
-							halfKey = halfKey.substring(0,Math.ceil(halfKey.length/2));
-						}
+							blackListedId.push(e.target.id);
+							var id = e.target.id;
+							var doubleKey = id+id;
+							var halfKey = id.substring(0,Math.ceil(id.length/2));
+							if(associativeArray[doubleKey] && blackListedId.indexOf(doubleKey) == -1){
+								document.getElementById(doubleKey).selectedIndex = e.target.selectedIndex;
+								document.getElementById(doubleKey).onchange({target: document.getElementById(doubleKey)});
+							}
+							if(associativeArray[halfKey] && blackListedId.indexOf(halfKey) == -1){
+								document.getElementById(halfKey).selectedIndex = e.target.selectedIndex;
+								document.getElementById(halfKey).onchange({target: document.getElementById(halfKey)});
+							}
+							
+							if(e.target.id == blackListedId[0])
+							{
+								blackListedId = [];
+							}
+						
 					}
 				}
 			}
