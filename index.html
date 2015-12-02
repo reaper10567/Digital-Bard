@@ -10,6 +10,7 @@
 		var subtype;
 		var currentFileNames = [];
 		var addedScript;
+		var fileReq;
 			window.onload = function(){
 				var x = document.getElementsByClassName("Type_Selector");
 				var i;
@@ -36,10 +37,11 @@
 					console.log("next triggered");
 				}
 				
-				var fileReq = new XMLHttpRequest();
+				
 				var subtypeButton = document.getElementsByClassName('subtype_selector');
 				for(i=0; i < subtypeButton.length; i++){
 					subtypeButton[i].onclick = function(e){
+						fileReq = new XMLHttpRequest();
 						subtype = e.target.innerHTML;
 						addedScript = document.createElement("script");
 						addedScript.setAttribute('src', baseURL + 'getFolderAsArrayOfNames.php?direct='+type+'/'+subtype+"&callback=handleResponse");
