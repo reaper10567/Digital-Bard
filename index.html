@@ -4,13 +4,12 @@
 		<title>Prose Generator</title>
 		<link rel="stylesheet" type="text/css" href="ProseGenerator.css">
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-		<div id="dynamicScript">
-		</div>
 		<script>
 		var associativeArray = {};
 		var type;
 		var subtype;
 		var currentFileNames = [];
+		var addedScript;
 			window.onload = function(){
 				var x = document.getElementsByClassName("Type_Selector");
 				var i;
@@ -42,9 +41,9 @@
 				for(i=0; i < subtypeButton.length; i++){
 					subtypeButton[i].onclick = function(e){
 						subtype = e.target.innerHTML;
-						var newScript = document.createElement("script");
-						newScript.setAttribute('src', baseURL + 'getFolderAsArrayOfNames.php?direct='+type+'/'+subtype+"&callback=handleResponse");
-						document.getElementById("dynamicScript").appendChild(newScript);
+						addedScript = document.createElement("script");
+						addedScript.setAttribute('src', baseURL + 'getFolderAsArrayOfNames.php?direct='+type+'/'+subtype+"&callback=handleResponse");
+						document.head.appendChild(addedScript);
 						
 					}
 				}
@@ -80,7 +79,7 @@
 			
 			function handleResponse(data){
 				console.log("Thing. Made it to the callback");
-				document.getElementById("dynamicScript").innerHTML = "";
+				document.head.removeChild(addedScript);
 				currentFileNames = [];
 				for(var i=0; i < data.length; i++)
 				{
