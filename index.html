@@ -117,6 +117,11 @@
 							document.getElementById(halfKey).onchange({target: document.getElementById(halfKey)});
 						}
 						
+						if(blackListedId.indexOf(doubleKey)> -1 || blackListedId.indexOf(halfKey) > -1)
+						{
+							continue;
+						}
+						
 						blackListedId = [];
 					}
 				}
