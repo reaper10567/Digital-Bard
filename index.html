@@ -36,6 +36,9 @@
 					{
 						currentItem = currentFileNames.length-1;
 					}
+					else{
+					currentItem--;
+					}
 					addedScript = document.createElement("script");
 					addedScript.setAttribute('src', baseURL + 'getFileContents.php?fp='+type+'/'+subtype+'/'+currentFileNames[currentItem]+"&callback=handleTextResponse");
 					document.head.appendChild(addedScript);
@@ -45,6 +48,10 @@
 					if(currentItem+1 >= currentFileNames.length)
 					{
 						currentItem = 0;
+					}
+					else
+					{
+					currentItem++;
 					}
 					addedScript = document.createElement("script");
 					addedScript.setAttribute('src', baseURL + 'getFileContents.php?fp='+type+'/'+subtype+'/'+currentFileNames[currentItem]+"&callback=handleTextResponse");
