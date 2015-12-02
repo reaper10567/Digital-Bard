@@ -108,11 +108,11 @@
 						var halfKey = id.substring(0,Math.ceil(id.length/2));
 						if(associativeArray[doubleKey]){
 							document.getElementById(doubleKey).selectedIndex = e.target.selectedIndex;
-							document.getElementById(doubleKey).fireEvent("onchange");
+							document.getElementById(doubleKey).onchange();
 						}
 						if(associativeArray[halfKey]){
 							document.getElementById(halfKey).selectedIndex = e.target.selectedIndex;
-							document.getElementById(halfKey).fireEvent("onchange");
+							document.getElementById(halfKey).onchange();
 						}
 					}
 				}
