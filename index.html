@@ -13,6 +13,7 @@
 		var currentItem = 0;
 		var fileReq = new XMLHttpRequest();
 		var baseURL = "http://people.rit.edu/tcg3234/RPGSeminarProject/";
+		var blackListedId = [];
 			window.onload = function(){
 				var x = document.getElementsByClassName("Type_Selector");
 				var i;
@@ -103,17 +104,24 @@
 					var current = document.getElementById(key);
 							
 					current.onchange = function(e){
+						blackListedId.push(e.target.id);
 						var id = e.target.id;
 						var doubleKey = id+id;
 						var halfKey = id.substring(0,Math.ceil(id.length/2));
-						if(associativeArray[doubleKey]){
+						if(associativeArray[doubleKey] && blackListedId.indexOf(doubleKey) == -1){
 							document.getElementById(doubleKey).selectedIndex = e.target.selectedIndex;
 							document.getElementById(doubleKey).onchange({target: document.getElementById(doubleKey)});
 						}
-						if(associativeArray[halfKey]){
+						if(associativeArray[halfKey] && blackListedId.indexOf(halfKey) == -1){
 							document.getElementById(halfKey).selectedIndex = e.target.selectedIndex;
 							document.getElementById(halfKey).onchange({target: document.getElementById(halfKey)});
 						}
+						
+						if(blackListedId.indexOf(doubleKey)> -1 || blackListedId.indexOf(halfKey) > -1)
+						{
+							return;
+						}
+						blackListedId = [];
 					}
 				}
 			}
