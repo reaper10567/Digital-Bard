@@ -10,6 +10,7 @@
 		var subtype;
 		var currentFileNames = [];
 		var addedScript;
+		var currentItem = 0;
 		var fileReq = new XMLHttpRequest();
 		var baseURL = "http://people.rit.edu/tcg3234/RPGSeminarProject/";
 			window.onload = function(){
@@ -31,11 +32,23 @@
 				}
 				
 				document.getElementById('prev').onclick = function(){
-					console.log("previous triggered");
+					if(currentItem-1 < 0)
+					{
+						currentItem = currentFileNames.length-1;
+					}
+					addedScript = document.createElement("script");
+					addedScript.setAttribute('src', baseURL + 'getFileContents.php?fp='+type+'/'+subtype+'/'+currentFileNames[currentItem]+"&callback=handleTextResponse");
+					document.head.appendChild(addedScript);
 				}
 				
 				document.getElementById('next').onclick = function(){
-					console.log("next triggered");
+					if(currentItem+1 >= currentFileNames.length)
+					{
+						currentItem = 0;
+					}
+					addedScript = document.createElement("script");
+					addedScript.setAttribute('src', baseURL + 'getFileContents.php?fp='+type+'/'+subtype+'/'+currentFileNames[currentItem]+"&callback=handleTextResponse");
+					document.head.appendChild(addedScript);
 				}
 				
 				
@@ -50,37 +63,12 @@
 					}
 				}
 				
-				fileReq.onreadystatechange = function(){
-					if(fileReq.readyState === 4)
-					{
-						if(fileReq.status === 200 || fileReq.status == 0)
-						{
-							var allText = fileReq.responseText;
-							displayArea.innerHTML = parseResult(allText);
-						
-						for(var key in associativeArray){
-							var current = document.getElementById(key);
-							
-							current.onchange = function(e){
-							var id = e.target.id;
-								var doubleKey = id+id;
-								var halfKey = id.substring(0,Math.ceil(id.length/2));
-								if(associativeArray[doubleKey]){
-									document.getElementById(doubleKey).selectedIndex = e.target.selectedIndex;
-								}
-								else if(associativeArray[halfKey]){
-									document.getElementById(halfKey).selectedIndex = e.target.selectedIndex;
-								}
-							}
-						}
-						}
-					}
-				}
+				
 				
 			}
 			
 			function handleResponse(data){
-				console.log("Thing. Made it to the callback");
+				currentItem = 0;
 				document.head.removeChild(addedScript);
 				currentFileNames = [];
 				for(var i=0; i < data.length; i++)
@@ -89,8 +77,36 @@
 						currentFileNames.push(data[i]);
 					}
 				}
-				fileReq.open("GET",baseURL + type + "/" + subtype + "/" + currentFileNames[0],true);
-				fileReq.send(null);
+				if(currentFileNames.length > 0)
+				{
+					addedScript = document.createElement("script");
+					addedScript.setAttribute('src', baseURL + 'getFileContents.php?fp='+type+'/'+subtype+'/'+currentFileNames[currentItem]+"&callback=handleTextResponse");
+					document.head.appendChild(addedScript);
+				}
+				
+			}
+			
+			function handleTextResponse(data){
+				document.head.removeChild(addedScript);
+				
+				var allText = data;
+				displayArea.innerHTML = parseResult(allText);
+						
+				for(var key in associativeArray){
+					var current = document.getElementById(key);
+							
+					current.onchange = function(e){
+						var id = e.target.id;
+						var doubleKey = id+id;
+						var halfKey = id.substring(0,Math.ceil(id.length/2));
+						if(associativeArray[doubleKey]){
+							document.getElementById(doubleKey).selectedIndex = e.target.selectedIndex;
+						}
+						else if(associativeArray[halfKey]){
+							document.getElementById(halfKey).selectedIndex = e.target.selectedIndex;
+						}
+					}
+				}
 			}
 			
 			function parseResult(result)
