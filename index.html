@@ -104,19 +104,18 @@
 					var current = document.getElementById(key);
 							
 					current.onchange = function(e){
-						blackListedId.push(e.target.id);
 						var id = e.target.id;
 						var doubleKey = id+id;
 						var halfKey = id.substring(0,Math.ceil(id.length/2));
-						if(associativeArray[doubleKey] && blackListedId.indexOf(doubleKey) == -1){
+						while((associativeArray[doubleKey])
+						{
 							document.getElementById(doubleKey).selectedIndex = e.target.selectedIndex;
-							document.getElementById(doubleKey).onchange({target: document.getElementById(doubleKey)});
+							doubleKey = doubleKey+doubleKey;
 						}
-						if(associativeArray[halfKey] && blackListedId.indexOf(halfKey) == -1){
+						while(associativeArray[halfKey]){
 							document.getElementById(halfKey).selectedIndex = e.target.selectedIndex;
-							document.getElementById(halfKey).onchange({target: document.getElementById(halfKey)});
+							halfKey = halfKey.substring(0,Math.ciel(halfKey.length/2));
 						}
-						blackListedId = [];
 					}
 				}
 			}
