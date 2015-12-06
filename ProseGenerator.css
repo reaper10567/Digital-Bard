@@ -1,5 +1,18 @@
 body{
 background-color:#FCD0A9;
+background-image: url("background.jpg");
+}
+
+.logo {
+	display: inline;
+	font-family: "IM Fell English SC";
+	font-weight: normal;
+	font-size: 2em;
+	margin-right: 2em;
+}
+
+.Selector_Container {
+	display: inline;
 }
 
 .subtype_selector{
@@ -8,6 +21,7 @@ background-color:#FCD0A9;
     margin:0;
     padding-right:2%;
 	color:white;
+	display: block;
 }
 
 .Type_Selector{
@@ -18,16 +32,31 @@ background-color:#FCD0A9;
 	color:white;
 }
 
+.Type_Table {
+	display: inline;
+}
+
+.Type_Table td {
+	vertical-align: top;
+}
+
 #Type_SubBar{
 visibility: hidden;
 }
 
 #Type_Bar{
-background-color: black;
+background-color: rgba(0,0,0,0.5);
 color: white;
-height: 10%;
+height: 2.5em;
+box-shadow: 0px 0px 10px black;
+margin-bottom: 5em;
 }
 
 #Prose_content{
+	color: white;
+	margin-top: 2em;
+	min-height: 2em;
+	box-shadow: 0px 0px 10px black;
+	background-color: rgba(0,0,0,0.5);
 	text-align: center;
 }

@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="UTF-8">
 		<title>Prose Generator</title>
+		<link href='https://fonts.googleapis.com/css?family=IM Fell English SC' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" type="text/css" href="ProseGenerator.css">
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 		<script>
@@ -22,9 +24,12 @@
 				
 				
 				function makeSubTypesVisible(e){
+					// make the sub bar visible
 					document.getElementById("Type_SubBar").style.visibility = "visible";
-				
+					// set the super type to the word
 					type = e.target.innerHTML;
+					// move the sub bar to the super button
+					e.target.parentNode.appendChild(document.getElementById("Type_SubBar"));
 				}
 				
 				
@@ -67,7 +72,7 @@
 						addedScript = document.createElement("script");
 						addedScript.setAttribute('src', baseURL + 'getFolderAsArrayOfNames.php?direct='+type+'/'+subtype+"&callback=handleResponse");
 						document.head.appendChild(addedScript);
-						
+						document.getElementById("Type_SubBar").style.visibility = "none";
 					}
 				}
 				
@@ -204,10 +209,13 @@
 	
 	<body>
 		<div id="Type_Bar">
-			<button class="Type_Selector">Riddle</button>
-			<button class="Type_Selector">Prophecy</button>
-			<button class="Type_Selector">Instructions</button>
-			<button class="Type_Selector">Bardic</button>
+			<table class="Type_Table"><tr>
+			<td><div class="logo">Digital Bard</div></td>
+			<td><button class="Type_Selector">Riddle</button></td>
+			<td><button class="Type_Selector">Prophecy</button></td>
+			<td><button class="Type_Selector">Instructions</button></td>
+			<td><button class="Type_Selector">Bardic</button></td>
+			</tr></table>
 			<div id="Type_SubBar">
 				<button class="subtype_selector" id="subtype_selector">Warning</button>
 				<button class="subtype_selector" id="subtype_selector">Humor</button>
