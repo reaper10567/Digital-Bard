@@ -76,7 +76,7 @@
 					}
 				}
 				
-				
+				handleTextRespone("A Digital Bard; what is it, you ask? \n I'm glad that you posed such a question. \n A Bard helps DMs with their difficult task; \n Preparing cool stuff for each session. \n \n A DM (or GM; whatever you like) \n Could benefit well from this tool;  \n So too could a player who's fond of the mic;  \n Quick poems just make things sound cool. \n \n But Digital Bard goes a step beyond that \n To provide you with supplementation! \n Each poem is 1changeable|mutable|protean1; filled up and fat \n With a slew of swap customization! \n \n Now don't take my word for it; go out and see \n The wonders this app holds for you! \n And if you are generous, credit these three:  \n 2Sarah|Bishop2 3Tyler|Gerber3 and 4Ben|Connick4 are the crew. \n");	
 				
 			}
 			
@@ -100,7 +100,8 @@
 			}
 			
 			function handleTextResponse(data){
-				document.head.removeChild(addedScript);
+				if(addedScript != null)
+					document.head.removeChild(addedScript);
 				var displayArea = document.getElementById('Prose_content');
 				var allText = data;
 				displayArea.innerHTML = parseResult(allText);
