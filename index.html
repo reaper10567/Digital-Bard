@@ -32,11 +32,11 @@
 					e.target.parentNode.appendChild(document.getElementById("Type_SubBar"));
 				}
 				
-				
+				//set action listeners for all types
 				for(i=0;i<x.length; i++){
 					x[i].onclick = makeSubTypesVisible;
 				}
-				
+				//set up previous button
 				document.getElementById('prev').onclick = function(){
 					if(currentItem-1 < 0)
 					{
@@ -45,11 +45,12 @@
 					else{
 					currentItem--;
 					}
+					//more JSONP request to PHP
 					addedScript = document.createElement("script");
 					addedScript.setAttribute('src', baseURL + 'getFileContents.php?fp='+type+'/'+subtype+'/'+currentFileNames[currentItem]+"&callback=handleTextResponse");
 					document.head.appendChild(addedScript);
 				}
-				
+				//setup next button
 				document.getElementById('next').onclick = function(){
 					if(currentItem+1 >= currentFileNames.length)
 					{
@@ -59,6 +60,7 @@
 					{
 					currentItem++;
 					}
+					//more JSONP request to PHP
 					addedScript = document.createElement("script");
 					addedScript.setAttribute('src', baseURL + 'getFileContents.php?fp='+type+'/'+subtype+'/'+currentFileNames[currentItem]+"&callback=handleTextResponse");
 					document.head.appendChild(addedScript);
@@ -66,30 +68,35 @@
 				
 				
 				var subtypeButton = document.getElementsByClassName('subtype_selector');
+				//set up the onclick listener for all subtype buttons to run the request
 				for(i=0; i < subtypeButton.length; i++){
 					subtypeButton[i].onclick = function(e){
 						subtype = e.target.innerHTML;
+						//JSONP -- create script element with the correct request to the PHP file on gibson with the correct callback function
 						addedScript = document.createElement("script");
 						addedScript.setAttribute('src', baseURL + 'getFolderAsArrayOfNames.php?direct='+type+'/'+subtype+"&callback=handleResponse");
 						document.head.appendChild(addedScript);
 						document.getElementById("Type_SubBar").style.visibility = "none";
 					}
 				}
-				
+				//initial load of the base poem
 				handleTextResponse("A Digital Bard; what is it, you ask? \n I'm glad that you posed such a question. \n A Bard helps DMs with their difficult task; \n Preparing cool stuff for each session. \n \n A DM (or GM; whatever you like) \n Could benefit well from this tool;  \n So too could a player who's fond of the mic;  \n Quick poems just make things sound cool. \n \n But Digital Bard goes a step beyond that \n To provide you with supplementation! \n Each poem is 1changeable|mutable|protean1; filled up and fat \n With a slew of swap customization! \n \n Now don't take my word for it; go out and see \n The wonders this app holds for you! \n And if you are generous, credit these three:  \n 2Sarah|Bishop2 3Tyler|Gerber3 and 4Ben|Connick4 are the crew. \n");	
 				
 			}
-			
+			//handles the response of the first PHP request which gets all of the files in the specified folder
 			function handleResponse(data){
 				currentItem = 0;
+				//remove previously added script
 				document.head.removeChild(addedScript);
 				currentFileNames = [];
+				//populate the filenames
 				for(var i=0; i < data.length; i++)
 				{
 					if(data[i].indexOf(".txt") != -1){
 						currentFileNames.push(data[i]);
 					}
 				}
+				//if there was at least one file, add a script element to get the first item in the list (more JSONP to a PHP file)
 				if(currentFileNames.length > 0)
 				{
 					addedScript = document.createElement("script");
@@ -98,14 +105,16 @@
 				}
 				
 			}
-			
+			//handles the full text of the file being passes back.
 			function handleTextResponse(data){
 				if(addedScript != null)
 					document.head.removeChild(addedScript);
+					//sets the display area's text to the parsed result
 				var displayArea = document.getElementById('Prose_content');
 				var allText = data;
 				displayArea.innerHTML = parseResult(allText);
-						
+				
+				//sets up the correlated selects so they change together.
 				for(var key in associativeArray){
 					var current = document.getElementById(key);
 							
@@ -131,7 +140,7 @@
 					}
 				}
 			}
-			
+			//parses the text and adds the select and br tags into the correct places
 			function parseResult(result)
 			{
 				associativeArray = {};
@@ -145,6 +154,7 @@
 				for(i=0;i<result.length;i++)
 				{
 					character = result[i];
+					//check choices is when it is populating a set of choices.
 					if(checkChoices){
 						if(character == '|'){
 							choices.push(choice);
@@ -160,7 +170,7 @@
 							associativeArray[num] = choices;
 							
 							innerHTML+="<select id='"+num+"'>";
-							
+							//add the key to the associated array in order to set up linked selects
 							for(x=0;x<associativeArray[num].length;x++){
 								innerHTML += "<option value='"+associativeArray[num][x]+"'>"+associativeArray[num][x]+"</option>";
 							}
@@ -175,7 +185,7 @@
 						else
 							choice += character;
 					}
-					
+					//if we first find a number, means we gotta handle the choices
 					else if(isNumber(character)){
 						num+= character;
 						while(isNumber(result[i+1])){
@@ -185,7 +195,7 @@
 						}
 						checkChoices = true;
 					}
-					
+					//otherwise, just add the character or a br tag
 					else {
 						if(character == '\n')
 						{
@@ -198,7 +208,7 @@
 				
 				return(innerHTML);
 			}
-			
+			//just checks if the character is a number
 			function isNumber(n) {
 
 				return !isNaN(parseFloat(n)) && isFinite(n);
@@ -210,7 +220,7 @@
 	<body>
 		<div id="Type_Bar">
 			<table class="Type_Table"><tr>
-			<td><div class="logo">Digital Bard</div></td>
+			<td><div class="logo" onclick='location.reload(true)'>Digital Bard</div></td>
 			<td><button class="Type_Selector">Riddle</button></td>
 			<td><button class="Type_Selector">Prophecy</button></td>
 			<td><button class="Type_Selector">Instructions</button></td>
