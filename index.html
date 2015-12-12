@@ -9,7 +9,6 @@
 		<script>
 		var associativeArray = {};
 		var type;
-		var subtype;
 		var currentFileNames = [];
 		var addedScript;
 		var currentItem = 0;
@@ -24,12 +23,12 @@
 				
 				
 				function makeSubTypesVisible(e){
-					// make the sub bar visible
-					document.getElementById("Type_SubBar").style.visibility = "visible";
 					// set the super type to the word
 					type = e.target.innerHTML;
-					// move the sub bar to the super button
-					e.target.parentNode.appendChild(document.getElementById("Type_SubBar"));
+					//JSONP -- create script element with the correct request to the PHP file on gibson with the correct callback function
+					addedScript = document.createElement("script");
+					addedScript.setAttribute('src', baseURL + 'getFolderAsArrayOfNames.php?direct='+type+'&callback=handleResponse');
+					document.head.appendChild(addedScript);
 				}
 				
 				//set action listeners for all types
@@ -47,7 +46,7 @@
 					}
 					//more JSONP request to PHP
 					addedScript = document.createElement("script");
-					addedScript.setAttribute('src', baseURL + 'getFileContents.php?fp='+type+'/'+subtype+'/'+currentFileNames[currentItem]+"&callback=handleTextResponse");
+					addedScript.setAttribute('src', baseURL + 'getFileContents.php?fp='+type+'/'+currentFileNames[currentItem]+"&callback=handleTextResponse");
 					document.head.appendChild(addedScript);
 				}
 				//setup next button
@@ -62,22 +61,8 @@
 					}
 					//more JSONP request to PHP
 					addedScript = document.createElement("script");
-					addedScript.setAttribute('src', baseURL + 'getFileContents.php?fp='+type+'/'+subtype+'/'+currentFileNames[currentItem]+"&callback=handleTextResponse");
+					addedScript.setAttribute('src', baseURL + 'getFileContents.php?fp='+type+'/'+currentFileNames[currentItem]+"&callback=handleTextResponse");
 					document.head.appendChild(addedScript);
-				}
-				
-				
-				var subtypeButton = document.getElementsByClassName('subtype_selector');
-				//set up the onclick listener for all subtype buttons to run the request
-				for(i=0; i < subtypeButton.length; i++){
-					subtypeButton[i].onclick = function(e){
-						subtype = e.target.innerHTML;
-						//JSONP -- create script element with the correct request to the PHP file on gibson with the correct callback function
-						addedScript = document.createElement("script");
-						addedScript.setAttribute('src', baseURL + 'getFolderAsArrayOfNames.php?direct='+type+'/'+subtype+"&callback=handleResponse");
-						document.head.appendChild(addedScript);
-						document.getElementById("Type_SubBar").style.visibility = "none";
-					}
 				}
 				//initial load of the base poem
 				handleTextResponse("A Digital Bard; what is it, you ask? \n I'm glad that you posed such a question. \n A Bard helps DMs with their difficult task; \n Preparing cool stuff for each session. \n \n A DM (or GM; whatever you like) \n Could benefit well from this tool;  \n So too could a player who's fond of the mic;  \n Quick poems just make things sound cool. \n \n But Digital Bard goes a step beyond that \n To provide you with supplementation! \n Each poem is 1changeable|mutable|protean1; filled up and fat \n With a slew of swap customization! \n \n Now don't take my word for it; go out and see \n The wonders this app holds for you! \n And if you are generous, credit these three:  \n 2Sarah|Bishop2 3Tyler|Gerber3 and 4Ben|Connick4 are the crew. \n");	
@@ -100,7 +85,7 @@
 				if(currentFileNames.length > 0)
 				{
 					addedScript = document.createElement("script");
-					addedScript.setAttribute('src', baseURL + 'getFileContents.php?fp='+type+'/'+subtype+'/'+currentFileNames[currentItem]+"&callback=handleTextResponse");
+					addedScript.setAttribute('src', baseURL + 'getFileContents.php?fp='+type+'/'+currentFileNames[currentItem]+"&callback=handleTextResponse");
 					document.head.appendChild(addedScript);
 				}
 				
@@ -226,13 +211,6 @@
 			<td><button class="Type_Selector">Instructions</button></td>
 			<td><button class="Type_Selector">Bardic</button></td>
 			</tr></table>
-			<div id="Type_SubBar">
-				<button class="subtype_selector" id="subtype_selector">Warning</button>
-				<button class="subtype_selector" id="subtype_selector">Humor</button>
-				<button class="subtype_selector" id="subtype_selector">Epic</button>
-				<button class="subtype_selector" id="subtype_selector">Horror</button>
-				<button class="subtype_selector" id="subtype_selector">Shanties</button>
-			</div>
 		</div>
 		<div id="Prose_content"></div>
 		<div id="Left_Arrow" style="float:left;"><button id="prev"><</a></div>
