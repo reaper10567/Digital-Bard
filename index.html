@@ -130,6 +130,8 @@
 			{
 				associativeArray = {};
 				var innerHTML = "";
+				if(currentFileNames.length > 0)
+					innerHTML = "<p id='counter'>"+type + ": "+(currentItem+1) + " of " + currentFileNames.length + "</p>";
 				
 				var choice = "";
 				var choices = [];
