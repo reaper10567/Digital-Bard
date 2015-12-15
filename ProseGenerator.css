@@ -9,6 +9,7 @@ background-image: url("background.jpg");
 	font-weight: normal;
 	font-size: 2em;
 	margin-right: 2em;
+	cursor: pointer; 
 }
 
 .Selector_Container {
@@ -34,6 +35,7 @@ background-image: url("background.jpg");
 	color:white;
 	font-family: Times;
 	font-size: 1em;
+	cursor: pointer; 
 }
 
 .Type_Table {
