@@ -1,9 +1,10 @@
 body{
-background-color:#FCD0A9;
+background-color:#363265;
 background-image: url("background.jpg");
+background-repeat: no-repeat;
 padding: 0px;
 margin: 0px;
-}
+text-align: center;}
 
 .logo {
 	display: inline;
@@ -64,17 +65,24 @@ padding-left: 1em;
 #Prose_content{
 	line-height: 150%;
 	color: white;
-	padding-top: 2em;
 	min-height: 2em;
 	box-shadow: 0px 0px 10px black;
-	background-color: rgba(0,0,0,0.4);
+	background-color: rgba(0,0,0,0.5);
 	text-align: center;
 	font-size: 2em;
+	display: inline-block;
+	padding: 1em;
+	margin-top: 2em;
 }
 
 #counter{
-	font-size:2.3em;
+	font-size: 2em;
 	text-align: center;
+	margin-top: 0em;
+	/* display: inline-block; */
+	/* margin: 0 auto; */
+	font-family: "IM Fell English SC";
+	/* height: 100%; */
 }
 
 select {
